@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as a}from"./chunks/framework.Cf366d-c.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{"footer":false},"headers":[],"relativePath":"mds/git/index.md","filePath":"mds/git/index.md","lastUpdated":null}'),s={name:"mds/git/index.md"};function n(d,o,r,i,c,m){return a(),t("div")}const _=e(s,[["render",n]]);export{l as __pageData,_ as default};

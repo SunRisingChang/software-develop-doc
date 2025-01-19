@@ -8,6 +8,7 @@ export default defineConfig({
   appearance: "dark",
   lastUpdated: true,
   lang: "zh-Hans",
+  outDir: "./docs",
   head: [
     [
       "link",

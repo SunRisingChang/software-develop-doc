@@ -7,17 +7,17 @@ hero:
   actions:
     - theme: brand
       text: Vue
-      link: /docs/vue
+      link: /mds/vue
     - theme: alt
       text: Angular
-      link: /docs/angular
+      link: /mds/angular
     - theme: brand
       text: Git
-      link: /docs/git
+      link: /mds/git
     - theme: brand
       text: Node.js
-      link: /docs/node
+      link: /mds/node
     - theme: alt
       text: Other
-      link: /docs/other
+      link: /mds/other
 ---
