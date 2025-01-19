@@ -1,25 +1,23 @@
 ---
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
   name: "软件开发文档"
-  text: "软件开发相关文档记录"
-  tagline: My great project tagline
+  tagline: "软件开发生涯的技术沉淀"
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Vue
+      link: /docs/vue
     - theme: alt
-      text: API Examples
-      link: /api-examples
-
-features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+      text: Angular
+      link: /docs/angular
+    - theme: brand
+      text: Git
+      link: /docs/git
+    - theme: brand
+      text: Node.js
+      link: /docs/node
+    - theme: alt
+      text: Other
+      link: /docs/other
 ---
-
