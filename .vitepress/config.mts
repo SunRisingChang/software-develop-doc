@@ -9,11 +9,9 @@ export default defineConfig({
   lastUpdated: true,
   lang: "zh-Hans",
   outDir: "./docs",
-  head: [
-    ["link", { rel: "icon", type: "image/png", href: "static/favicon.svg" }],
-  ],
+  head: [["link", { rel: "icon", type: "image/png", href: "favicon.svg" }]],
   themeConfig: {
-    logo: "static/favicon.svg",
+    logo: "favicon.svg",
     socialLinks: [
       {
         icon: "github",
