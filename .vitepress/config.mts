@@ -1,6 +1,9 @@
-import { defineConfig } from "vitepress";
+import { DefaultTheme, defineConfig, UserConfig } from "vitepress";
+import AutoSidebarPlugin from "vitepress-auto-sidebar-plugin";
+import { withSidebar } from "vitepress-sidebar";
+import { VitePressSidebarOptions } from "vitepress-sidebar/types";
 
-export default defineConfig({
+const vitePressOptions: UserConfig<DefaultTheme.Config> = {
   title: "软件开发文档",
   description: "软件开发相关文档记录",
   base: "/software-develop-doc/",
@@ -58,4 +61,33 @@ export default defineConfig({
       lazyLoading: true,
     },
   },
-});
+  vite: {
+    plugins: [AutoSidebarPlugin({})],
+  },
+};
+
+const vitePressSidebarOptions:
+  | VitePressSidebarOptions
+  | VitePressSidebarOptions[] = {
+  manualSortFileNameByPriority: ["node", "guide", "advanced-usage"],
+  excludePattern: ["changelog.md"],
+  collapsed: false,
+  documentRootPath: "mds",
+  debugPrint: true,
+  // collapsed: false,
+  useTitleFromFrontmatter: true,
+  useTitleFromFileHeading: true,
+  useFolderTitleFromIndexFile: true,
+  useFolderLinkFromIndexFile: true,
+  sortMenusByName: true,
+  capitalizeFirst: true,
+  frontmatterOrderDefaultValue: 9, // For 'CHANGELOG.md'
+  sortMenusByFrontmatterOrder: true,
+  // rootGroupCollapsed: false,
+};
+
+export default defineConfig(
+  withSidebar(vitePressOptions, vitePressSidebarOptions)
+);
+
+// export default defineConfig(vitePressOptions);

@@ -1,3 +1,444 @@
 ---
 footer: false
 ---
+
+# 1. picocolors
+
+[picocolors](https://link.juejin.cn/?target=https://github.com/alexeyraspopov/picocolors)  是一个可以在终端修改输出字符样式的  `npm`  包，说直白点就是给字符添加颜色；
+
+![](image.png)
+
+## 2. `prompts` vs `enquirer` vs `inquirer`
+
+![](acveq-vjrcc.gif)
+
+![](1.png)
+
+### 3. `cac` vs `commander` vs `yargs`
+
+[cac](https://link.juejin.cn?target=https://github.com/cacjs/cac) 是一个用于构建 CLI 应用程序的 JavaScript 库；
+
+通俗点讲，就是给你的 cli 工具增加自定义一些命令，例如 `vite create`，后面的 `create` 命令就是通过 cac 来增加的；
+
+因为该库较适用于一些自定义的工具库中，所以只在 `vite` 中使用， `vue3` 并不需要该工具；
+
+**为什么不用** [commander](https://link.juejin.cn?target=https://github.com/tj/commander.js) **or** [yargs](https://link.juejin.cn?target=https://github.com/yargs/yargs) **？**
+
+主要是因为 vite 的工具是针对一些自定义的命令等场景不是特别复杂的情况；
+
+我们看看 `cac 的优势`：
+
+- **超轻量级**：没有依赖，体积数倍小于 `commander` 和 `yargs`；
+- **易于学习**：只需要学习 4 API `cli.option`、`cli.version` 、`cli.help` `cli.parse` 即可搞定大部分需求；
+- **功能强大**：启用默认命令，可以像使用 git 的命令一样方便去使用它，且有参数和选项的校验、自动生成 help 等完善功能；
+
+> 当然，如果你想写一个功能较多的 cli 工具，也是可以选择 `commander` 和 `yargs` 的；
+>
+> 不过一些中小型的 cli 工具我还是比较推荐 `cac` 的；
+
+# 4. npm-run-all
+
+[npm-run-all](https://link.juejin.cn?target=https://github.com/mysticatea/npm-run-all) 是一个  `cli`  工具，可以并行、或者按顺序执行多个  `npm`  脚本；`npm-run-all` 在 `vite` 工具源码中有使用；
+
+通俗点讲就是为了解决官方的 `npm run 命令` 无法同时运行多个脚本的问题，它可以把诸如 `npm run clean && npm run build:css && npm run build:js && npm run build:html` 的一长串的命令通过 glob 语法简化成 `npm-run-all clean build:*` 一行命令。
+
+**提供三个命令：**
+
+- `npm-run-all`：
+
+  - 可以带 `-s` 和 `-p` 参数的简写，分别对应串行和并行；
+
+  ```bash
+  # 依次执行这三个任务命令
+  npm-run-all clean lint build # 同时执行这两个任务命令
+  npm-run-all --parallel lint build
+  npm-run-all -s a b -p c d # 先串行执行 a 和 b, 再并行执行 c 和 d
+  ```
+
+- `run-s`：为  `npm-run-all --serial`的缩写；
+- `run-p`：为  `npm-run-all --parallel`的缩写；
+
+> 上面只是简单的介绍了下，想要了解更多实用功能的，可以去[官网](https://link.juejin.cn?target=https://github.com/mysticatea/npm-run-all)查看；
+>
+> 最后：**这个库属实是好用，良心推荐！**
+
+# 5. semver
+
+[semver](https://link.juejin.cn?target=https://github.com/npm/node-semver) 是一个语义化版本号管理的 `npm` 库；`semver` 在 `vue3` 框架源码和 `vite` 工具源码中都有使用；
+
+说直白一点，你在开发一个开源库的时候，肯定会遇到要提醒用户不同版本号不同的情况，那么如何去判断用户版本过低，`semver` 就可以很好的帮助你解决这个问题；
+
+`semver` 内置了许多方法，比如 `判断一个版本是否合法，判断版本号命名是否正确，两个版本谁大谁小之类` 等等方法；
+
+**如下列一些官网的例子：**
+
+```javascript
+const semver = require('semver') semver.valid('1.2.3') // '1.2.3' semver.valid('a.b.c') // null semver.clean('  =v1.2.3   ') // '1.2.3' semver.satisfies('1.2.3', '1.x || >=2.5.0 || 5.0.0 - 7.2.3') // true semver.gt('1.2.3', '9.8.7') // false semver.lt('1.2.3', '9.8.7') // true semver.minVersion('>=1.0.0') // '1.0.0' semver.valid(semver.coerce('v2')) // '2.0.0' semver.valid(semver.coerce('42.6.7.9.3-alpha')) // '42.6.7'
+```
+
+更多使用方法 [详见文档](https://link.juejin.cn?target=https://github.com/npm/node-semver#usage)
+
+# 6. minimist
+
+[minimist](https://link.juejin.cn?target=https://github.com/substack/minimist) 是一个命令行参数解析工具；`minimist` 在 `vue3` 框架源码和 `vite` 工具源码中都有使用；
+
+**使用：**
+
+```javascript
+const args = require("minimist")(process.argv.slice(2));
+```
+
+**例如：**
+
+```bash
+# 执行以下命令 vite create app -x 3 -y 4 -n5 -abc --beep=boop foo bar baz # 将获得 { _: [ 'foo', 'bar', 'baz' ],   x: 3,   y: 4,   n: 5,   a: true,   b: true,   c: true,   beep: 'boop' }
+```
+
+特别要说明的是返回值其中首个 key 是`_`，它的值是个数组，包含的是所有没有关联选项的参数。
+
+> 如果你的工具在终端有较多的参数，那么这个工具就非常的适合您！
+
+# 7. magic-string
+
+[magic-string](https://link.juejin.cn?target=github.com/rich-harris/magic-string) 是一个用于操作字符串和生成源映射的小而快的库；
+
+其实它最主要的功能就是对一些源代码和庞大的 `AST` 字符串做轻量级字符串的替换；
+
+在 `vite` 工具源码和 `@vue/compiler-sfc` 中大量使用；
+
+**使用：**
+
+```typescript
+import MagicString from "magic-string";
+const s = new MagicString("problems = 99");
+
+// 替换 problems -> answer
+s.overwrite(0, 8, "answer");
+s.toString(); // 'answer = 99'
+
+// 生成 sourcemap
+var map = s.generateMap({
+  source: "source.js",
+  file: "converted.js.map",
+  includeContent: true,
+});
+```
+
+# 8. fs-extra
+
+[fs-extra](https://link.juejin.cn?target=https://www.npmjs.com/package/fs-extra) 是一个强大的`文件操作库`， 是 `Nodejs fs 模块` 的增强版；
+
+这个就不多讲了，因为它在千锤百炼之下只能形容它是 `YYDS`，查看 [更多官方文档](https://link.juejin.cn?target=https://github.com/jprichardson/node-fs-extra#usage)。
+
+# 9. chokidar
+
+[chokidar](https://link.juejin.cn?target=https://github.com/paulmillr/chokidar) 是一款专门用于文件监控的库；`chokidar` 只在 `vite` 工具源码中有使用；
+
+其实 Node.js 标准库中提供 `fs.watch` 和 `fs.watchFile` 两个方法用于处理文件监控，但是为什么我们还需要`chokidar` 呢？
+
+主要是由于 `兼容性不好、无法监听、监听多次` 等大量影响性能的问题；
+
+**chokidar 用法：**
+
+```javascript
+const chokidar = require("chokidar");
+
+const watcher = chokidar.watch("file, dir, glob, or array", {
+  ignored: /(^|[\/\\])\../,
+  persistent: true,
+});
+
+watcher
+  .on("add", (path) => console.log(`File ${path} has been added`))
+  .on("change", (path) => console.log(`File ${path} has been changed`))
+  .on("unlink", (path) => console.log(`File ${path} has been removed`))
+  .on("addDir", (path) => console.log(`Directory ${path} has been added`))
+  .on("unlinkDir", (path) => console.log(`Directory ${path} has been removed`))
+  .on("error", (error) => console.log(`Watcher error: ${error}`))
+  .on("ready", () => console.log("Initial scan complete. Ready for changes"))
+  .on("all", (event, path) => console.log(event, path))
+  .on("raw", (event, path, details) => {
+    log("Raw event info:", event, path, details);
+  });
+```
+
+# 10. fast-glob
+
+[fast-glob](https://link.juejin.cn?target=https://github.com/mrmlnc/fast-glob) 是一个快速批量导入、读取文件的库； `fast-glob` 只在 `vite` 工具源码中有使用；
+
+**基本语法：**
+
+1. `*` ：匹配除斜杆、影藏文件外的所有文件内容；
+2. `**`：匹配零个或多个层级的目录；
+3. `?`：匹配除斜杆以外的任何单个字符；
+4. `[seq]`：匹配 `[]` 中的任意字符 seq；
+
+**如何使用：**
+
+```javascript
+const fg = require("fast-glob");
+
+const entries = await fg([".editorconfig", "**/index.js"], { dot: true });
+```
+
+**在** **`vite`** **vite** **vite 中使用：**
+
+`vite` 工具中 `import.meta.glob` 方法（如下）就是基于这个库来实现，所以如果你在自己的工具库中有批量文件等的操作，这个库是以很不错的选择；
+
+```typescript
+const modules = import.meta.glob("./dir/*.js", {
+  query: { foo: "bar", bar: true },
+});
+```
+
+`vite` 通过 `fast-glob` 工具把它生成如下代码
+
+```typescript
+// vite 生成的代码
+const modules = {
+  "./dir/foo.js": () =>
+    import("./dir/foo.js?foo=bar&bar=true").then((m) => m.setup),
+  "./dir/bar.js": () =>
+    import("./dir/bar.js?foo=bar&bar=true").then((m) => m.setup),
+};
+```
+
+# 11. debug
+
+[debug](https://link.juejin.cn?target=https://github.com/debug-js/debug) 是一个模仿  `Node.js` 核心调试技术的小型 `JavaScript` 调试程序，在适用于 `Node.js` 和 `Web 浏览器` 都可使用；`debug` 只在 `vite` 工具源码中有使用；
+
+说直白点就是你可以使用 debug 来对你的程序进行 `毫秒级别时间差的统计` 对你程序代码进行优化；
+
+![](2.png)
+
+**使用：**
+
+```javascript
+var debug = require("debug")("http"),
+  http = require("http"),
+  name = "My App";
+
+// fake app
+
+debug("booting %o", name);
+
+http
+  .createServer(function (req, res) {
+    debug(req.method + " " + req.url);
+    res.end("hello\n");
+  })
+  .listen(3000, function () {
+    debug("listening");
+  });
+
+// fake worker of some kind
+
+require("./worker");
+```
+
+> 如果你对你的代码或者自研的工具等有较高性能要求，强烈建议可以使用 `debug` 来进行调式。
+
+# 12. dotenv
+
+[dotenv](https://link.juejin.cn?target=https://github.com/motdotla/dotenv) 是一个零依赖模块，可将 `.env 文件` 中的环境变量加载到 `process.env` 中；`dotenv` 只在 `vite` 工具源码中有使用；
+
+**如何使用：**
+
+1. 创建 `.env 文件`
+
+   ```ini
+   S3_BUCKET="YOURS3BUCKET"
+   SECRET_KEY="YOURSECRETKEYGOESHERE"
+   ```
+
+2. 使用
+
+   ```typescript
+   import * as dotenv from "dotenv";
+   dotenv.config();
+   console.log(process.env);
+   ```
+
+# 13. esbuild
+
+[esbuild](https://link.juejin.cn?target=https://github.com/evanw/esbuild) 是一个基于 Go 语言开发的 JavaScript 打包工具，被 Vite 用于开发环境的依赖解析；
+
+相比传统的打包工具，主打性能优势，在构建速度上可以快 10~100 倍；
+
+![](3.png)
+
+> 到现在知道为啥 `vite` 为啥快了吧，`esbuild` 就是第一功臣。
+
+**优势：**
+
+- 没有缓存机制也有极快的打包速度
+- 支持 es6 和 cjs 模块
+- 支持 es6 modules 的 tree-shaking
+- 支持 ts 和 jsx
+- sourcemap
+- 压缩工具
+- 自定义的插件开发
+
+**使用：**
+
+`esbuild` 在 API 层面上非常简洁, 主要的 API 只有两个: `Transform` 和 `Build`, 这两个 API 可以通过 CLI, JavaScript, Go 的方式调用；
+
+1. transform：调用这个 API 能将 `ts`，`jsx` 等文件转换为 js 文件；
+
+   ```typescript
+   // cli
+   exbuild ./test.ts --loader=ts // 输出 const str = 'Hello World';
+
+   // js api调用
+   const esbuild = require('esbuild');
+   const fs = require('fs');
+   const path = require('path');
+   const filePath = path.resolve(__dirname, 'test.ts');
+   const code = esbuild.transformSync(fs.readFilesync(filePath), {
+       loader: 'ts',
+   })
+   console.log(code);
+   // 输出
+   // {
+   //  code: 'const str = 'Hello World'',
+   //  map: '',
+   //  warnings: []
+   // }
+
+   ```
+
+2. build：整合了`transform`后的代码，可以将一个或者多个文件转换并保存为文件；
+
+   ```typescript
+   // cli
+   esbuild test.ts --outfile=./dist/test.js // { errors: [], warnings: [] }
+
+   // js api调用
+   const esbuild = require('esbuild');
+   const path = require('path');
+
+   const result = esbuild.buildSync({
+     entryPoints: [path.resolve(__dirname, 'test.ts')],
+     outdir: path.resolve(__dirname, 'dist'),
+   });
+
+   console.log(result); // { errors: [], warnings: [] }
+   ```
+
+> 更多详细使用可[查看链接](https://juejin.cn/post/6992860503278092302)
+
+# 14. rollup
+
+[rollup](https://link.juejin.cn?target=https://github.com/rollup/rollup) 是一个 `JavaScript 模块打包器`，可以将小块代码编译成大块复杂的代码，我们熟悉的 vue、react、vuex、vue-router 等都是用 rollup 进行打包的。
+
+在 `vite` 中的**生产环境（Production）**   就是基于  `rollup`  打包来构建主要代码的。
+
+**使用：**
+
+1. 创建 `rollup.config.js` 文件
+2. 配置文件
+
+   ```typescript
+   export default {
+     input: "src/index.js",
+     output: {
+       name: "amapUpper",
+       file: "dist/amapUpper.js",
+       format: "umd",
+     },
+     plugins: [],
+   };
+   ```
+
+3. 运行
+
+```json
+{
+  "scripts": {
+    "dev": "rollup -i src/index.js -o dist/bundle.js -f es"
+  }
+}
+```
+
+4. 执行 `npm run dev`
+
+# 15. ws
+
+[ws](https://link.juejin.cn?target=https://github.com/websockets/ws) 是一个简单易用、速度极快且经过全面测试的 `WebSocket 客户端`和 `服务器` 实现；完全可以是 `Socket.io`  的替代方案；`ws` 只在 `vite` 工具源码中有使用。
+
+说直白一点就是通过 `ws`，咱们可以实现服务端和客户端的长连接，且通过 `ws` 对象，就可以获取到 `客户端发送过来的信息` 和 `主动推送信息给客户端`。
+
+**使用：**
+
+1. server.js
+
+```javascript
+const WebSocket = require("ws");
+const WebSocketServer = WebSocket.Server;
+
+// 创建 websocket 服务器 监听在 3000 端口
+const wss = new WebSocketServer({ port: 3000 });
+
+// 服务器被客户端连接
+wss.on("connection", (ws) => {
+  // 通过 ws 对象，就可以获取到客户端发送过来的信息和主动推送信息给客户端
+  var i = 0;
+  var int = setInterval(function f() {
+    ws.send(i++); // 每隔 1 秒给连接方报一次数
+  }, 1000);
+});
+```
+
+2.client.js
+
+```typescript
+const WebSocket = require("ws");
+const ws = new WebSocket("ws://localhost:3000");
+
+// 接受
+ws.on("message", (message) => {
+  console.log(message);
+
+  // 当数字达到 10 时，断开连接
+  if (message == 10) {
+    ws.send("close");
+    ws.close();
+  }
+});
+```
+
+# 17. esno
+
+[esno](https://link.juejin.cn?target=https://github.com/esbuild-kit/esno) 是一个基于 `esbuild` 的 `TS/ESNext` 的 `Node.js` 运行时；
+
+说直白点就是可以类似 `ts-node` 一样直接运行 `TS 文件`，那为甚么还用 `esno` 呢？
+
+因为 `esno` 是基于 `esbuild` 运行的，`esbuild` 有多快，上面我们有讲到了吧，这里就不复述了。
+
+**使用：**
+
+```json
+{
+  "scripts": {
+    "start": "esno index.ts"
+  },
+  "dependencies": {
+    "esno": "*"
+  }
+}
+```
+
+```bash
+npm run start
+```
+
+# 19. vitepress
+
+[vitepress](https://link.juejin.cn?target=url) 是在 `vuepress` 的基础上实现的静态网站生成器，区别在于 `vitepress` 是建立在 `vite` 之上做的开发；
+
+**优势：**
+
+- 基于 `vite` 而不是 `webpack`，所有更快的启动时间，热重载等；
+- 使用 `vue3` 来减少 js 的有效负载；
+
+> 所以如果你想写一个在线文档仓库，那么 `vitepress` 就是一个很好的选择。

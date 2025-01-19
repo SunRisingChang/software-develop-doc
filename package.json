@@ -7,5 +7,9 @@
   },
   "dependencies": {
     "vitepress": "^1.5.0"
+  },
+  "devDependencies": {
+    "vitepress-auto-sidebar-plugin": "^0.2.4",
+    "vitepress-sidebar": "^1.30.2"
   }
 }
