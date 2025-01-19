@@ -10,13 +10,10 @@ export default defineConfig({
   lang: "zh-Hans",
   outDir: "./docs",
   head: [
-    [
-      "link",
-      { rel: "icon", type: "image/png", href: ".vitepress/favicon.svg" },
-    ],
+    ["link", { rel: "icon", type: "image/png", href: "static/favicon.svg" }],
   ],
   themeConfig: {
-    logo: ".vitepress/favicon.svg",
+    logo: "static/favicon.svg",
     socialLinks: [
       {
         icon: "github",
