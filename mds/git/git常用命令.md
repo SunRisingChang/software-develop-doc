@@ -51,3 +51,16 @@ git push origin dev_xj
 ```shell
 git reset --hard HEAD
 ```
+
+## 查看分支作者
+
+```shell
+git for-each-ref --format='%(refname:short) %(authorname)' refs/heads
+```
+
+## 统计两个分支的代码行数变化
+
+```shell
+git diff master 2024UI02 --shortstat -- ':!folder_to_exclude/' ':!*.pb.h'
+# 887 files changed, 12185 insertions(+), 47846 deletions(-)
+```
