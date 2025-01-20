@@ -62,6 +62,16 @@ export default defineConfig({
         ],
       },
       {
+        text: "Angular",
+        collapsed: false,
+        items: [
+          {
+            text: "Rxjs代码段",
+            link: "/mds/angular/Rxjs代码段.md",
+          },
+        ],
+      },
+      {
         text: "Git",
         collapsed: false,
         items: [
