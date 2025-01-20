@@ -1,9 +1,6 @@
-import { DefaultTheme, defineConfig, UserConfig } from "vitepress";
-import AutoSidebarPlugin from "vitepress-auto-sidebar-plugin";
-import { withSidebar } from "vitepress-sidebar";
-import { VitePressSidebarOptions } from "vitepress-sidebar/types";
+import { defineConfig } from "vitepress";
 
-const vitePressOptions: UserConfig<DefaultTheme.Config> = {
+export default defineConfig({
   title: "软件开发文档",
   description: "软件开发相关文档记录",
   base: "/software-develop-doc/",
@@ -14,7 +11,7 @@ const vitePressOptions: UserConfig<DefaultTheme.Config> = {
   outDir: "./docs",
   head: [["link", { rel: "icon", type: "image/png", href: "favicon.svg" }]],
   themeConfig: {
-    logo: "favicon.svg",
+    logo: "/favicon.svg",
     socialLinks: [
       {
         icon: "github",
@@ -53,41 +50,26 @@ const vitePressOptions: UserConfig<DefaultTheme.Config> = {
         },
       },
     },
+    sidebar: [
+      {
+        text: "Node",
+        collapsed: false,
+        items: [
+          {
+            text: "脚本常用库",
+            link: "/mds/node/脚本常用库.md",
+          },
+        ],
+      },
+    ],
+    outline: {
+      label: "目录",
+    },
   },
   markdown: {
-    toc: { level: [1, 2] },
     image: {
       // 默认禁用；设置为 true 可为所有图片启用懒加载。
       lazyLoading: true,
     },
   },
-  vite: {
-    plugins: [AutoSidebarPlugin({})],
-  },
-};
-
-const vitePressSidebarOptions:
-  | VitePressSidebarOptions
-  | VitePressSidebarOptions[] = {
-  manualSortFileNameByPriority: ["node", "guide", "advanced-usage"],
-  excludePattern: ["changelog.md"],
-  collapsed: false,
-  documentRootPath: "mds",
-  debugPrint: true,
-  // collapsed: false,
-  useTitleFromFrontmatter: true,
-  useTitleFromFileHeading: true,
-  useFolderTitleFromIndexFile: true,
-  useFolderLinkFromIndexFile: true,
-  sortMenusByName: true,
-  capitalizeFirst: true,
-  frontmatterOrderDefaultValue: 9, // For 'CHANGELOG.md'
-  sortMenusByFrontmatterOrder: true,
-  // rootGroupCollapsed: false,
-};
-
-export default defineConfig(
-  withSidebar(vitePressOptions, vitePressSidebarOptions)
-);
-
-// export default defineConfig(vitePressOptions);
+});
