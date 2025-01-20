@@ -61,6 +61,26 @@ export default defineConfig({
           },
         ],
       },
+      {
+        text: "Git",
+        collapsed: false,
+        items: [
+          {
+            text: "常用命令",
+            link: "/mds/git/git常用命令.md",
+          },
+        ],
+      },
+      {
+        text: "其它",
+        collapsed: false,
+        items: [
+          {
+            text: "开发环境优化",
+            link: "/mds/other/开发环境优化.md",
+          },
+        ],
+      },
     ],
     outline: {
       label: "目录",
