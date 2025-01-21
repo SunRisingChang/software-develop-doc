@@ -82,6 +82,16 @@ export default defineConfig({
         ],
       },
       {
+        text: "记录",
+        collapsed: false,
+        items: [
+          {
+            text: "CA双证书生成流程",
+            link: "/mds/record/CA双证书生成流程.md",
+          },
+        ],
+      },
+      {
         text: "其它",
         collapsed: false,
         items: [
