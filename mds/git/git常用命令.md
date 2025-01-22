@@ -63,4 +63,10 @@ git for-each-ref --format='%(refname:short) %(authorname)' refs/heads
 ```shell
 git diff master 2024UI02 --shortstat -- ':!folder_to_exclude/' ':!*.pb.h'
 # 887 files changed, 12185 insertions(+), 47846 deletions(-)
+git diff master 2024UI02 --stat -- ':!folder_to_exclude/' ':!*.
+# README.md                                          | 589 ++++++++++++++++++++-
+# .../action-log/action-log.component.spec.ts        |  16 +-
+# .../add-company/\350\256\244\350\257\201@2x.png"   | Bin 6724 -> 0 bytes
+# src/main.ts                                        |   7 +-
+# 4 files changed, 600 insertions(+), 12 deletions(-)
 ```
